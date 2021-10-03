@@ -1,6 +1,3 @@
-import os, argparse
-from shutil import copy
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--dir_path', help='path to directory where movies are located')
