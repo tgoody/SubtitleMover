@@ -1,19 +1,1 @@
-import os, argparse
-from shutil import copy
 
-parser = argparse.ArgumentParser()
-
-parser.add_argument('--dir_path', help='path to directory where movies are located')
-parser.add_argument('--sub_folder_name', help='name of folder subtitles are located in')
-
-args = parser.parse_args()
-
-dir_path = args.dir_path
-sub_folder_name = args.sub_folder_name
-
-if not dir_path:
-	print('positional argument "dir_path" not specified (defaulting to "./"')
-	dir_path = './'
-if not sub_folder_name:
-	print('positional argument "sub_folder_name" not specified (defaulting to "Subs/"')
-	sub_folder_name = 'Subs'
