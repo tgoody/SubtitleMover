@@ -37,3 +37,20 @@ for folder in os.listdir(dir_path):
 	if('{}.{}.srt'.format(movie_name.rstrip(extension), 'en') in items):
 		print('Found existing subtitle file, skipping...')
 		continue
+		# Check if there is a sub folder
+	if sub_folder_name in items:
+		# Check for subs inside sub folder
+		items = os.listdir(os.path.join(dir_path, folder, sub_folder_name))
+		subs = [i for i in items if i.endswith('.srt')]
+		if not subs:
+			print('No subtitles found.')
+			continue
+		# Move subs out of folder and rename to match movie
+		english_sub_counter = 0
+		for sub in subs:
+			if 'eng' in sub.lower() and sub.endswith('.srt'):
+				if(english_sub_counter > 0):
+					continue
+				copy(os.path.join(dir_path, folder, sub_folder_name, sub), '{}.{}.srt'.format(os.path.join(dir_path, folder, movie_name.rstrip(extension)), 'en'))
+				print('Successfully copied {} to {}.srt'.format(os.path.join(dir_path, folder, sub_folder_name, sub), os.path.join(dir_path, folder, movie_name.rstrip(extension))))
+				english_sub_counter += 1
