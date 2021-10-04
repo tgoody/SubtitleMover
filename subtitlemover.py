@@ -18,10 +18,11 @@ if not sub_folder_name:
 	print('positional argument "sub_folder_name" not specified (defaulting to "Subs/"')
 	sub_folder_name = 'Subs'
 
+subfolders = [ f.path for f in os.scandir(dir_path) if f.is_dir() ]
 # List all movie folders in "Movies" folder
-for folder in os.listdir(dir_path):
+for folder in subfolders:
 	# Get contents of each folder
-	items = os.listdir(os.path.join(dir_path, folder))
+	items = os.listdir(folder)
 	# Check if an mp4 file exists, if not continue
 	movie = [i for i in items if i.endswith('.mp4')]
 	extension = '.mp4'
@@ -37,10 +38,10 @@ for folder in os.listdir(dir_path):
 	if('{}.{}.srt'.format(movie_name.rstrip(extension), 'en') in items):
 		print('Found existing subtitle file, skipping...')
 		continue
-		# Check if there is a sub folder
+	# Check if there is a sub folder
 	if sub_folder_name in items:
 		# Check for subs inside sub folder
-		items = os.listdir(os.path.join(dir_path, folder, sub_folder_name))
+		items = os.listdir(os.path.join(folder, sub_folder_name))
 		subs = [i for i in items if i.endswith('.srt')]
 		if not subs:
 			print('No subtitles found.')
@@ -51,6 +52,6 @@ for folder in os.listdir(dir_path):
 			if 'eng' in sub.lower() and sub.endswith('.srt'):
 				if(english_sub_counter > 0):
 					continue
-				copy(os.path.join(dir_path, folder, sub_folder_name, sub), '{}.{}.srt'.format(os.path.join(dir_path, folder, movie_name.rstrip(extension)), 'en'))
-				print('Successfully copied {} to {}.srt'.format(os.path.join(dir_path, folder, sub_folder_name, sub), os.path.join(dir_path, folder, movie_name.rstrip(extension))))
+				copy(os.path.join(folder, sub_folder_name, sub), '{}.{}.srt'.format(os.path.join(folder, movie_name.rstrip(extension)), 'en'))
+				print('Successfully copied {} to {}.srt'.format(os.path.join(folder, sub_folder_name, sub), os.path.join(folder, movie_name.rstrip(extension))))
 				english_sub_counter += 1
